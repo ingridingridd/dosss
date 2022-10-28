@@ -5,7 +5,7 @@ public class Comprador {
     private int vuelto;
     private String saborBebida;
     
-    public Comprador(Moneda m, int cualBebida, Expendedor exp){
+    public Comprador(Moneda m, int cualBebida, Expendedor exp) throws PagoIncorrectoException, PagoInsuficienteException, NoHayBebidaException{
         this.exp = exp;
         
         if(exp.comprarBebida(m, cualBebida) != null){
@@ -19,6 +19,8 @@ public class Comprador {
                 saborBebida = "fanta";
             }
         }
+        else throw new NoHayBebidaException("No quedan bebidas");
+        
         Moneda moneda = null;
         moneda = exp.getVuelto();
         while(moneda != null){

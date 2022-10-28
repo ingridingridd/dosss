@@ -1,5 +1,23 @@
 package tarea2;
 
+class NoHayBebidaException extends Exception{
+    public NoHayBebidaException(String mensaje){
+        super(mensaje);
+    }
+}
+
+class PagoInsuficienteException extends Exception{
+    public PagoInsuficienteException(String mensaje){
+        super(mensaje);
+    }
+}
+
+class PagoIncorrectoException extends Exception{
+    public PagoIncorrectoException(String mensaje){
+        super(mensaje);
+    }
+}
+
 public class Expendedor {
     public static final int COCA = 1;
     public static final int SPRITE = 2;
@@ -26,11 +44,13 @@ public class Expendedor {
         }
     }
     
-    public Bebida comprarBebida(Moneda m, int cual){
+    public Bebida comprarBebida(Moneda m, int cual) throws PagoIncorrectoException, PagoInsuficienteException, NoHayBebidaException{
         //agregar exception de no recibir una moneda
         if(m == null){
-            return null;
+            //return null;
+            throw new PagoIncorrectoException("no inserto monedas");
         }
+        
         int vueltoDeposito = m.getValor();
         Bebida cocaColaBebida = null;
         Bebida spriteBebida = null;
@@ -42,14 +62,15 @@ public class Expendedor {
                 vueltoDeposito= m.getValor()- precioBebidas;
             }
         }
+        else throw new PagoInsuficienteException("saldo insuficiente para comprar bebida");
         
         if(cual == SPRITE && m.getValor() >= precioBebidas){
             spriteBebida = sprite.getBebida();
             if(cocaColaBebida != null){
                 vueltoDeposito= m.getValor()- precioBebidas;
             }
-            
         }
+        else throw new PagoInsuficienteException("saldo insuficiente para comprar bebida");
         
         if(cual == FANTA && m.getValor() >= precioBebidas){
             fantaBebida = fanta.getBebida();
@@ -57,6 +78,7 @@ public class Expendedor {
                 vueltoDeposito= m.getValor()- precioBebidas;
             }
         }
+        else throw new PagoInsuficienteException("saldo insuficiente para comprar bebida");
         
         while(vueltoDeposito > 0){
             vuelto.addMoneda(new Moneda100());
@@ -75,6 +97,7 @@ public class Expendedor {
         else{
             return null;
         }
+    
     }
     
     public Moneda getVuelto(){
@@ -84,4 +107,5 @@ public class Expendedor {
     public int getPrecioBebida(){
         return this.precioBebidas;
     }
+    
 }
