@@ -27,6 +27,7 @@ public class Expendedor {
     }
     
     public Bebida comprarBebida(Moneda m, int cual){
+        //agregar exception de no recibir una moneda
         if(m == null){
             return null;
         }
@@ -78,5 +79,9 @@ public class Expendedor {
     
     public Moneda getVuelto(){
         return vuelto.getMoneda();
+    }
+    
+    public int getPrecioBebida(){
+        return this.precioBebidas;
     }
 }
